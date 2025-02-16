@@ -4,12 +4,13 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate', {
+      const response = await axios.post(apiUrl + '/v1/auth/authenticate', {
         email,
         password,
       });

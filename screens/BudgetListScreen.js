@@ -5,9 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 import { useFocusEffect } from '@react-navigation/native';
 
-const API_URL = 'http://localhost:8080/api/v1/budgets'; 
-
 const BudgetListScreen = ({ navigation }) => {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL + '/v1/budgets';
   const [budgetItems, setBudgetItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +22,7 @@ const BudgetListScreen = ({ navigation }) => {
     setLoading(true); 
     setError(null); 
     try {
-      const response = await axios.get(API_URL, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get(apiUrl, { headers: { Authorization: `Bearer ${token}` } });
       setBudgetItems(response.data);
     } catch (error) {
       setError('Error fetching budget items. Please try again later.');
@@ -35,7 +34,7 @@ const BudgetListScreen = ({ navigation }) => {
   const deleteBudgetItem = async (id) => {
     const token = await AsyncStorage.getItem('token');
     try {
-      await axios.delete(`${API_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`${apiUrl}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       Alert.alert('Success', 'Item deleted successfully');
       fetchBudgetItems();
     } catch (error) {

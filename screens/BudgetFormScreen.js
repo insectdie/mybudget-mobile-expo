@@ -4,9 +4,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const API_URL = 'http://localhost:8080/api/v1/budgets';
-
 const BudgetFormScreen = ({ navigation, route }) => {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [nameBudget, setNameBudget] = useState(route.params?.nameBudget || '');
   const [amount, setAmount] = useState(route.params?.amount || '');
 
@@ -23,7 +22,7 @@ const BudgetFormScreen = ({ navigation, route }) => {
       const headers = { Authorization: `Bearer ${token}` };
       const budgetData = { nameBudget, amount, ...(route.params && { id: route.params.id }) };
   
-      await axios.post(API_URL, budgetData, { headers });
+      await axios.post(apiUrl + '/v1/budgets', budgetData, { headers });
   
       Alert.alert('Success', `Budget ${route.params ? 'updated' : 'added'} successfully`);
       navigation.navigate('BudgetList');

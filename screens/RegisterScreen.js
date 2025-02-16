@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import axios from 'axios';
 
 const RegisterScreen = ({ navigation }) => {
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL + '/v1/auth/register';
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const RegisterScreen = ({ navigation }) => {
 
     const handleRegister = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/auth/register', {
+            const response = await axios.post(apiUrl, {
                 firstname,
                 lastname,
                 email,
